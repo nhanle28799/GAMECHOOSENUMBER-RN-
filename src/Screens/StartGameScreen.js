@@ -39,14 +39,19 @@ export default function StartGameScreen(props) {
     Keyboard.dismiss();
   };
   let confirmOutPut;
-
+  const startGameHandle = valueConfirm => {
+    props.onStartGame(valueConfirm);
+  };
   if (confirm) {
     confirmOutPut = (
       <Card style={styles.summaryoutput}>
         <Text>Select Number</Text>
         <NumberContainer>{valueConfirm}</NumberContainer>
         <View style={styles.buttonstart}>
-          <Button title="Start Game" />
+          <Button
+            title="Start Game"
+            onPress={() => startGameHandle(valueConfirm)}
+          />
         </View>
       </Card>
     );
