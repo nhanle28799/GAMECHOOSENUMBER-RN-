@@ -10,7 +10,10 @@ export default function App() {
   const [roundGame, setRoundGame] = useState(0);
   const startGameHandle = userNumber => {
     setSelectNumber(userNumber);
+  };
+  const onRestartGame = () => {
     setRoundGame(0);
+    setSelectNumber(null);
   };
   const gameOverHandle = numofround => {
     setRoundGame(numofround);
@@ -21,7 +24,13 @@ export default function App() {
       <GameScreen userChoice={selectNumber} gameOver={gameOverHandle} />
     );
   } else if (roundGame > 0) {
-    content = <GameOverScreen />;
+    content = (
+      <GameOverScreen
+        userChoice={selectNumber}
+        roundGame={roundGame}
+        onRestartGame={onRestartGame}
+      />
+    );
   }
   return (
     <View style={styles.screen}>

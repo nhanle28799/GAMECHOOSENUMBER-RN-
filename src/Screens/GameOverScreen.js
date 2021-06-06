@@ -1,10 +1,13 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Button, StyleSheet, Text, View} from 'react-native';
 
-export default function GameOverScreen() {
+export default function GameOverScreen(props) {
   return (
     <View style={styles.screen}>
       <Text>Game Over !</Text>
+      <Text>Number of Round: {props.roundGame}</Text>
+      <Text>Number choice:{props.userChoice}</Text>
+      <Button title="New Game" onPress={props.onRestartGame} />
     </View>
   );
 }
