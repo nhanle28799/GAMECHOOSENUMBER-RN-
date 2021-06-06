@@ -13,6 +13,7 @@ import {
 import Colors from '../../constants/color';
 import Card from '../components/Card';
 import Input from '../components/Input';
+import MainButton from '../components/MainButton';
 import NumberContainer from '../components/NumberContainer';
 
 export default function StartGameScreen(props) {
@@ -48,10 +49,9 @@ export default function StartGameScreen(props) {
         <Text>Select Number</Text>
         <NumberContainer>{valueConfirm}</NumberContainer>
         <View style={styles.buttonstart}>
-          <Button
-            title="Start Game"
-            onPress={() => startGameHandle(valueConfirm)}
-          />
+          <MainButton onPress={() => startGameHandle(valueConfirm)}>
+            START GAME
+          </MainButton>
         </View>
       </Card>
     );
@@ -106,7 +106,8 @@ const styles = StyleSheet.create({
     marginHorizontal: '10%',
   },
   title: {
-    fontSize: 20,
+    fontSize: 12,
+    fontFamily: 'SVN-Gilroy Bold',
     textAlign: 'center',
     marginVertical: 10,
   },
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   button: {
-    width: '45%',
+    width: 80,
   },
   input: {
     width: 120,

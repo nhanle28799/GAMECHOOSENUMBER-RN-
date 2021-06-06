@@ -1,7 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Alert, Button, StyleSheet, Text, View} from 'react-native';
+import color from '../../constants/color';
 import Card from '../components/Card';
+import MainButton from '../components/MainButton';
 import NumberContainer from '../components/NumberContainer';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const generateRandomBetween = (min, max, exclude) => {
   min = Math.ceil(min);
@@ -14,16 +17,15 @@ const generateRandomBetween = (min, max, exclude) => {
   }
 };
 export default function GameScreen(props) {
-  const [currentGuess, setCurrentGuess] = useState(
-    generateRandomBetween(1, 100, props.userChoice),
-  );
-  const [currentRound, setCurrentRound] = useState(0);
+  const initialstate = generateRandomBetween(1, 100, props.userChoice);
+  const [currentGuess, setCurrentGuess] = useState(initialstate);
+
+  const [listGuess, setListGuess] = useState([initialstate]);
   let valueLow = useRef(1);
   let valueHigh = useRef(100);
   useEffect(() => {
     if (currentGuess === props.userChoice) {
-      props.gameOver(currentRound);
-      console.log(currentRound);
+      props.gameOver(listGuess.length);
     }
   }, [currentGuess]);
   const nextGuessNumber = text => {
@@ -40,7 +42,7 @@ export default function GameScreen(props) {
     if (text === 'lower') {
       valueHigh.current = currentGuess;
     } else {
-      valueLow.current = currentGuess;
+      valueLow.current = currentGuess + 1;
     }
     const nextNumber = generateRandomBetween(
       valueLow.current,
@@ -48,16 +50,27 @@ export default function GameScreen(props) {
       currentGuess,
     );
     setCurrentGuess(nextNumber);
-    setCurrentRound(currentRound + 1);
+    setListGuess(listGuess => [nextNumber, ...listGuess]);
   };
   return (
     <View style={styles.screen}>
       <Text>User Guess:</Text>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card style={styles.buttoncontainer}>
-        <Button title="LOWER" onPress={nextGuessNumber.bind(this, 'lower')} />
-        <Button title="HIGHER" onPress={nextGuessNumber.bind(this, 'higher')} />
+        <MainButton onPress={nextGuessNumber.bind(this, 'lower')}>
+          LOWER
+        </MainButton>
+        <MainButton onPress={nextGuessNumber.bind(this, 'higher')}>
+          HIGHER
+        </MainButton>
       </Card>
+      {listGuess.map(guess => {
+        return (
+          <Card key={guess}>
+            <Text>{guess}</Text>
+          </Card>
+        );
+      })}
     </View>
   );
 }
@@ -73,7 +86,7 @@ const styles = StyleSheet.create({
   buttoncontainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    width: '60%',
+    width: '80%',
     padding: 15,
     marginTop: 20,
   },
